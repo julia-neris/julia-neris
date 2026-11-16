@@ -89,7 +89,8 @@
     "paper": "Research paper: file to be provided",
     "video": "Watch presentation",
     "chart": "SinfonIA evaluation results",
-    "chartLoading": "Loading chart…"
+    "chartLoading": "Loading chart…",
+    "boardLabel": "SINFONIA / EVALUATION"
   },
   "lab": {
     "eyebrow": "03 / INTERACTIVE LAB",

@@ -28,6 +28,8 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm install
+      - name: Dependency audit report
+        run: npm audit --json || true
       - name: Typecheck and production build
         run: npm run build
       - name: Install browser

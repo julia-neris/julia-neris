@@ -136,6 +136,6 @@ Acrescente um objeto `Project` em `src/data/projects.ts`, com conteúdo PT/EN, c
 
 ## Referências técnicas
 
-- https://v6.vite.dev/guide/
+- https://vite.dev/guide/
 - https://react.i18next.com/latest/usetranslation-hook
 - https://motion.dev/docs/react-accessibility

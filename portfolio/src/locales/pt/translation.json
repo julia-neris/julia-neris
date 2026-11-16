@@ -89,7 +89,8 @@
     "paper": "Artigo científico: arquivo a fornecer",
     "video": "Assistir à apresentação",
     "chart": "Resultados de avaliação do SinfonIA",
-    "chartLoading": "Carregando gráfico…"
+    "chartLoading": "Carregando gráfico…",
+    "boardLabel": "SINFONIA / AVALIAÇÃO"
   },
   "lab": {
     "eyebrow": "03 / LABORATÓRIO INTERATIVO",

@@ -64,7 +64,8 @@ test('article and missing route render',async({page})=>{
 });
 test('external links use safe new-tab attributes',async({page})=>{
  await page.goto('/');
- const links=page.locator('a[href^="https://"]');expect(await links.count()).toBeGreaterThan(10);
+ await expect(page.getByRole('heading',{name:'Júlia Neris.'})).toBeVisible();
+ const links=page.locator('a[href^="https://"]');await expect.poll(()=>links.count()).toBeGreaterThan(10);
  for(const link of await links.all()){await expect(link).toHaveAttribute('target','_blank');await expect(link).toHaveAttribute('rel','noopener noreferrer')}
 });
 test('responsive layout has no horizontal overflow and reduced motion works',async({page,isMobile})=>{
