@@ -1,0 +1,56 @@
+name: Portfolio CI
+on:
+  pull_request:
+    paths:
+      - 'portfolio/**'
+      - '.github/workflows/portfolio.yml'
+  push:
+    branches: ['main']
+    paths:
+      - 'portfolio/**'
+      - '.github/workflows/portfolio.yml'
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: portfolio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install
+      - name: Dependency audit report
+        run: npm audit --json || true
+      - name: Typecheck and production build
+        run: npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Browser acceptance tests
+        run: npm test
+      - name: Upload production build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: julia-neris-portfolio-dist
+          path: portfolio/dist
+      - name: Upload resolved lockfile
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-package-lock
+          path: portfolio/package-lock.json
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-playwright-report
+          path: portfolio/playwright-report

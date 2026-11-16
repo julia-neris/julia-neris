@@ -1,0 +1,13 @@
+import React,{lazy} from 'react';
+import ReactDOM from 'react-dom/client';
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {MotionConfig} from 'motion/react';
+import './locales';
+import './styles/global.css';
+import Layout from './components/layout/Layout';
+import ErrorBoundary from './components/ui/ErrorBoundary';
+const Home=lazy(()=>import('./pages/Home'));
+const Project=lazy(()=>import('./pages/Project'));
+const Article=lazy(()=>import('./pages/Article'));
+const NotFound=lazy(()=>import('./pages/NotFound'));
+ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><ErrorBoundary><MotionConfig reducedMotion="user"><BrowserRouter><Routes><Route element={<Layout/>}><Route index element={<Home/>}/><Route path="projects/:slug" element={<Project/>}/><Route path="writing/evaluating-helpdesk" element={<Article/>}/><Route path="*" element={<NotFound/>}/></Route></Routes></BrowserRouter></MotionConfig></ErrorBoundary></React.StrictMode>);

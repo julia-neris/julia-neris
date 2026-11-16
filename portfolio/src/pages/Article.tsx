@@ -1,0 +1,7 @@
+import {Link} from 'react-router-dom';
+import {ArrowLeft,ArrowUpRight} from 'lucide-react';
+import {article} from '../content/articles/evaluating-helpdesk';
+import {useLocale} from '../hooks/useLocale';
+import {ExternalLink} from '../components/ui/Shared';
+import SEO from '../components/ui/SEO';
+export default function Article(){const {t,pick}=useLocale();return <article className="case-page article-page container"><SEO title={t('writing.titleArticle')} description={t('writing.excerpt')}/><Link className="text-link back-link" to="/#writing"><ArrowLeft size={17}/>{t('nav.writing')}</Link><header className="case-header"><p className="eyebrow">{t('writing.type')}</p><h1>{t('writing.titleArticle')}</h1><p>{t('writing.excerpt')}</p><small>{t('writing.articleNote')}</small></header><div className="case-layout"><aside className="case-toc"><span className="eyebrow">{t('ui.toc')}</span>{article.sections.map((s,i)=><a key={i} href={'#note-'+i}>{pick(s.title)}</a>)}</aside><div className="case-prose">{article.sections.map((s,i)=><section id={'note-'+i} key={i}><h2>{pick(s.title)}</h2><p>{pick(s.text)}</p></section>)}<ExternalLink className="text-link" href="https://github.com/julia-neris/helpdesk-ml/blob/main/docs/artigo.md">{t('writing.sourceLink')}<ArrowUpRight size={17}/></ExternalLink><section><h2>{t('writing.next')}</h2><Link className="button primary" to="/projects/helpdesk-ml">HelpDesk ML<ArrowUpRight size={17}/></Link></section></div></div></article>}
