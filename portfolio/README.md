@@ -113,7 +113,7 @@ npx playwright install chromium
 npm test
 ```
 
-Os testes usam Chromium desktop e mobile: temas, idioma/persistência, filtros, rotas diretas, estados pendentes, navegação por teclado nas abas, rede ilustrativa, links, redução de movimento e overflow.
+Os testes usam Chromium desktop e mobile: temas, idioma/persistência, filtros, rotas diretas, estados pendentes, navegação por teclado nas abas, rede ilustrativa, links, redução de movimento e overflow. Também iniciam `npm run dev` em uma segunda porta e verificam sucesso/erro da API com respostas interceptadas exclusivamente no teste. O endpoint `.invalid` do teste nunca é usado no build de produção.
 
 A integração contínua está em `../.github/workflows/portfolio.yml` e publica artefatos com o build e o relatório de testes. Não declara sucesso se os testes não rodarem. O build local não pôde ser executado durante a criação porque o ambiente de execução estava indisponível; consulte o resultado efetivo da execução no GitHub Actions.
 

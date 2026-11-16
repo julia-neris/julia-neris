@@ -5,7 +5,7 @@ on:
       - 'portfolio/**'
       - '.github/workflows/portfolio.yml'
   push:
-    branches: ['codex/ai-portfolio']
+    branches: ['main']
     paths:
       - 'portfolio/**'
       - '.github/workflows/portfolio.yml'

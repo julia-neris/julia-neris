@@ -74,3 +74,24 @@ test('responsive layout has no horizontal overflow and reduced motion works',asy
  await expect(page.locator('.floating-label').first()).toHaveCSS('animation-name','none');
  if(isMobile){await page.getByRole('button',{name:'Abrir menu'}).click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.locator('#mobile-nav').getByRole('link',{name:'Projetos',exact:true}).click();await expect(page.locator('#mobile-nav')).toHaveCount(0)}
 });
+
+test('configured API renders only the response and requires review',async({page})=>{
+ let submitted:unknown;
+ await page.route('https://classifier.invalid/predict',async route=>{submitted=route.request().postDataJSON();await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({categoria_sugerida:'rede',revisao_humana:true})})});
+ await page.goto('http://127.0.0.1:4174/#lab');
+ await page.getByLabel('Descreva um chamado de TI').fill('Meu Wi-Fi não conecta');
+ await page.getByRole('button',{name:'Classificar chamado'}).click();
+ await expect(page.locator('.inference-panel h3')).toHaveText('rede');
+ expect(submitted).toEqual({text:'Meu Wi-Fi não conecta'});
+ await expect(page.locator('.inference-panel')).toContainText('Revisão humana obrigatória');
+ await expect(page.locator('.received-text')).toHaveText('Meu Wi-Fi não conecta');
+});
+test('configured API errors never produce a prediction',async({page})=>{
+ await page.route('https://classifier.invalid/predict',route=>route.fulfill({status:503,body:'unavailable'}));
+ await page.goto('http://127.0.0.1:4174/#lab');
+ await page.getByLabel('Descreva um chamado de TI').fill('Não consigo entrar');
+ await page.getByRole('button',{name:'Classificar chamado'}).click();
+ await expect(page.getByRole('alert')).toContainText('Não foi possível obter uma previsão válida');
+ await expect(page.locator('.received-text')).toHaveCount(0);
+ await expect(page.getByRole('button',{name:'Classificar chamado'})).toBeEnabled();
+});
